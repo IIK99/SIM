@@ -71,7 +71,13 @@ export const LoginForm: React.FC = () => {
   };
 
   return (
-    <div className="fixed inset-0 w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div
+      className="fixed inset-0 w-full h-full flex items-center justify-center bg-cover bg-center bg-no-repeat"
+      style={{
+        backgroundImage:
+          "url('https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Finfotangerang.id%2Fwp-content%2Fuploads%2F2024%2F04%2FJadwal-Pendaftaran-Penerimaan-Mahasiswa-Baru-UNPAM.jpg&f=1&nofb=1&ipt=84e313c8a315e32957f41f1043de8c9a4367db4b19636edbdf6f55701fee1542')",
+      }}
+    >
       <Card className="w-full max-w-md mx-4">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-bold">SIAKAD Login</CardTitle>

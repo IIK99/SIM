@@ -41,27 +41,6 @@ body {
   line-height: 1.1;
 } */
 
-button {
-  border-radius: 0.5rem;
-  border: 1px solid transparent;
-  padding: 0.5em 1em;
-  font-size: 0.875rem;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #5c81ef;
-  color: white;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 2px solid #3b82f6;
-  outline-offset: 2px;
-}
-
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
@@ -71,9 +50,6 @@ button:focus-visible {
   }
   a:hover {
     color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
   }
 }
 
