@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "Node16",
+    "rootDir": ".",
+    "outDir": "./dist",
+    "strict": false,
+    "moduleResolution": "node16",
+
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
+  },
+  "include": ["src/**/*", "prisma.config.ts"]
+}

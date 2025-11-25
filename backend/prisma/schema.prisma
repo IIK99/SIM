@@ -1,0 +1,90 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model dosen {
+  id_dosen Int     @id @default(autoincrement())
+  id_user  Int     @unique(map: "Dosen_id_user_key")
+  nama     String
+  nidn     String  @unique(map: "Dosen_nidn_key")
+  user     user    @relation(fields: [id_user], references: [id_user], map: "Dosen_id_user_fkey")
+  kelas    kelas[]
+}
+
+model kelas {
+  id_kelas     Int        @id @default(autoincrement())
+  id_mk        Int
+  id_dosen     Int
+  tahun_ajaran String
+  semester     Int
+  hari         String?
+  dosen        dosen      @relation(fields: [id_dosen], references: [id_dosen], map: "Kelas_id_dosen_fkey")
+  matakuliah   matakuliah @relation(fields: [id_mk], references: [id_mk], map: "Kelas_id_mk_fkey")
+  krs          krs[]
+
+  @@index([id_dosen], map: "Kelas_id_dosen_fkey")
+  @@index([id_mk], map: "Kelas_id_mk_fkey")
+}
+
+model krs {
+  id_krs       Int       @id @default(autoincrement())
+  id_mahasiswa Int
+  id_kelas     Int
+  semester     Int       @default(1)
+  kelas        kelas     @relation(fields: [id_kelas], references: [id_kelas], map: "KRS_id_kelas_fkey")
+  mahasiswa    mahasiswa @relation(fields: [id_mahasiswa], references: [id_mahasiswa], map: "KRS_id_mahasiswa_fkey")
+  nilai        nilai?
+
+  @@index([id_kelas], map: "KRS_id_kelas_fkey")
+  @@index([id_mahasiswa], map: "KRS_id_mahasiswa_fkey")
+}
+
+model mahasiswa {
+  id_mahasiswa Int    @id @default(autoincrement())
+  id_user      Int    @unique(map: "Mahasiswa_id_user_key")
+  nama         String
+  nim          String @unique(map: "Mahasiswa_nim_key")
+  prodi        String
+  angkatan     Int
+  krs          krs[]
+  user         user   @relation(fields: [id_user], references: [id_user], map: "Mahasiswa_id_user_fkey")
+}
+
+model matakuliah {
+  id_mk    Int     @id @default(autoincrement())
+  nama_mk  String
+  sks      Int
+  semester Int
+  kelas    kelas[]
+}
+
+model nilai {
+  id_nilai      Int      @id @default(autoincrement())
+  id_krs        Int      @unique(map: "Nilai_id_krs_key")
+  
+  nilai_angka   Int?
+  nilai_huruf   String?
+  nilai_tugas   Int?     
+  nilai_uts     Int?       
+  nilai_uas     Int?     
+  nilai_akhir   Float?  
+  
+  created_at    DateTime @default(now())
+  updated_at    DateTime @default(now())
+  
+  krs           krs      @relation(fields: [id_krs], references: [id_krs], map: "Nilai_id_krs_fkey")
+}
+
+model user {
+  id_user   Int        @id @default(autoincrement())
+  username  String     @unique(map: "User_username_key")
+  password  String
+  role      String
+  dosen     dosen?
+  mahasiswa mahasiswa?
+}

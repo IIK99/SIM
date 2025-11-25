@@ -1,0 +1,109 @@
+Testing 
+-	Admin
+Buat matkul 
+POST http://localhost:3001/mata-kuliah
+Authorization: Bearer {token_admin}
+
+{
+  "nama_mk": "Algoritma dan Pemrograman",
+  "sks": 3,
+  "semester": 1
+}
+
+Add dosen
+POST http://localhost:3001/dosen/create
+Authorization: Bearer {token_admin}
+
+{
+  "username": "dosen1",
+  "password": "123456",
+  "nama": "Dr. Ahmad Wijaya",
+  "nidn": "12345678"
+}
+
+
+
+
+Add mahasiswa
+POST http://localhost:3001/mahasiswa/create
+Authorization: Bearer {token_admin}
+
+{
+  "username": "mahasiswa1",
+  "password": "123456",
+  "nama": "Budi Santoso",
+  "nim": "20240001",
+  "prodi": "Informatika",
+  "angkatan": 2024
+}
+
+Add kelas
+POST http://localhost:3001/kelas
+Authorization: Bearer {token_admin}
+
+{
+  "id_mk": 1,
+  "id_dosen": 1,
+  "tahun_ajaran": "2024/2025",
+  "semester": 1,
+  "hari": "Senin"
+}
+
+Add krs
+POST http://localhost:3001/krs/create
+Authorization: Bearer {token_admin}
+
+{
+  "id_mahasiswa": 1,
+  "id_kelas": 1,
+  "semester": 1
+}
+
+Dashboard
+GET http://localhost:3001/api/admin/dashboard
+Authorization: Bearer {token_admin} 
+
+-	Dosen
+Lihat kelas
+GET http://localhost:3001/nilai/kelas-saya
+Authorization: Bearer {token_dosen}
+
+Lihat mahasiswa
+GET http://localhost:3001/nilai/kelas/1/mahasiswa
+Authorization: Bearer {token_dosen}
+
+Input nilai
+POST http://localhost:3001/nilai/input-komponen
+Authorization: Bearer {token_dosen}
+
+{
+  "id_krs": 1,
+  "nilai_tugas": 85,
+  "nilai_uts": 78,
+  "nilai_uas": 82
+}
+
+Dashboard
+GET http://localhost:3001/api/dosen/dashboard/1
+Authorization: Bearer {token_dosen}
+
+-	Mahasiswa
+Lihat matkul
+GET http://localhost:3001/krs/available/1?semester=1
+Authorization: Bearer {token_mahasiswa}
+
+Lihat jadwal
+GET http://localhost:3001/krs/jadwal/1
+Authorization: Bearer {token_mahasiswa}
+
+Nilai semester
+GET http://localhost:3001/khs/1/1
+Authorization: Bearer {token_mahasiswa}
+
+Lihat transkrip
+GET http://localhost:3001/transkrip/1
+Authorization: Bearer {token_mahasiswa}
+
+Dashboard
+GET http://localhost:3001/api/mahasiswa/dashboard/1
+Authorization: Bearer {token_mahasiswa}
