@@ -1,4 +1,3 @@
-// src/components/ui/sidebar.tsx - FULL UPDATE
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
@@ -126,19 +125,23 @@ const menuConfig: MenuItem[] = [
     icon: BookOpen,
     path: "/kelas",
     role: ["dosen"],
-    badge: "5",
   },
   {
     label: "Input Nilai",
     icon: FileEdit,
     path: "/input-nilai",
     role: ["dosen"],
-    badge: "12",
   },
   {
     label: "Jadwal Mengajar",
     icon: Calendar,
     path: "/jadwal",
+    role: ["dosen"],
+  },
+  {
+    label: "Profil",
+    icon: User,
+    path: "/profil",
     role: ["dosen"],
   },
 
@@ -154,7 +157,6 @@ const menuConfig: MenuItem[] = [
     icon: FileText,
     path: "/krs",
     role: ["mahasiswa"],
-    badge: "New",
   },
   { label: "KHS", icon: Award, path: "/khs", role: ["mahasiswa"] },
   {

@@ -63,10 +63,10 @@ export const Header: React.FC = () => {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuSeparator onClick={() => navigate(`/${user?.role}/profil`)}>
+            <DropdownMenuItem onClick={() => navigate(`/${user?.role}/profil`)}>
               <User className="mr-2 h-4 w-4" />
               <span>Profile</span>
-            </DropdownMenuSeparator>
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={logout}>
               <LogOut className="mr-2 h-4 w-4" />

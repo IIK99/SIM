@@ -1,4 +1,3 @@
-// src/components/ui/modal.tsx
 import {
   Dialog,
   DialogContent,
