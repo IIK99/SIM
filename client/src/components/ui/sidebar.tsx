@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
-import { PanelLeft } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import { useIsMobile } from "../../hooks/useMobile";
@@ -37,6 +36,7 @@ import {
   Award,
   FileCheck,
   User,
+  ChevronsLeft,
 } from "lucide-react";
 
 import { useAuth } from "../../hooks/useAuth";
@@ -529,7 +529,7 @@ const SidebarTrigger = React.forwardRef<
       }}
       {...props}
     >
-      <PanelLeft />
+      <ChevronsLeft className="h-5 w-5 transition-transform group-data-[state=collapsed]:rotate-180" />
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   );

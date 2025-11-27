@@ -83,7 +83,7 @@ export const Header: React.FC = () => {
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 onClick={logout}
-                className="text-red-600 cursor-pointer focus:text-red-600 focus:bg-red-50"
+                className="text-white bg-red-600 cursor-pointer focus:bg-red-700 focus:text-white mt-2"
               >
                 <LogOut className="mr-2 h-4 w-4" />
                 <span>Log out</span>

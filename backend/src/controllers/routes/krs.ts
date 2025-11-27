@@ -128,17 +128,22 @@ router.get("/available/:id_mahasiswa", async (req, res) => {
       return res.status(404).json({ error: "Mahasiswa tidak ditemukan" });
     }
 
-    // Get kelas yang available
-    const availableKelas = await prisma.kelas.findMany({
-      where: {
-        tahun_ajaran: currentTahunAjaran as string,
-        semester: Number(currentSemester),
-        krs: {
-          none: {
-            id_mahasiswa: Number(id_mahasiswa),
-          },
+    const whereClause: any = {
+      tahun_ajaran: currentTahunAjaran as string,
+      krs: {
+        none: {
+          id_mahasiswa: Number(id_mahasiswa),
         },
       },
+    };
+
+    if (semester) {
+      whereClause.semester = Number(semester);
+    }
+
+    // Get kelas yang available
+    const availableKelas = await prisma.kelas.findMany({
+      where: whereClause,
       include: {
         matakuliah: {
           select: {

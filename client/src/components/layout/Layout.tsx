@@ -1,4 +1,4 @@
-import { Sidebar, SidebarInset, SidebarProvider } from "../ui/sidebar";
+import { Sidebar, SidebarInset } from "../ui/sidebar";
 import { Header } from "../layout/Header";
 
 interface LayoutProps {
@@ -7,7 +7,7 @@ interface LayoutProps {
 
 export const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <SidebarProvider>
+    <>
       <Sidebar />
       <SidebarInset className="h-svh overflow-hidden bg-gray-50/50">
         <Header />
@@ -15,6 +15,6 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
           {children}
         </main>
       </SidebarInset>
-    </SidebarProvider>
+    </>
   );
 };

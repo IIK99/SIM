@@ -15,46 +15,46 @@ router.post("/", async (req, res) => {
   try {
     // Validasi semester (1-8)
     if (semester < 1 || semester > 8) {
-      return res.status(400).json({ 
-        error: "Semester harus antara 1-8" 
+      return res.status(400).json({
+        error: "Semester harus antara 1-8",
       });
     }
 
     // Validasi format tahun ajaran
     const tahunAjaranRegex = /^\d{4}\/\d{4}$/;
     if (!tahunAjaranRegex.test(tahun_ajaran)) {
-      return res.status(400).json({ 
-        error: "Format tahun ajaran harus YYYY/YYYY (contoh: 2024/2025)" 
+      return res.status(400).json({
+        error: "Format tahun ajaran harus YYYY/YYYY (contoh: 2024/2025)",
       });
     }
 
     // Validasi hari (jika diisi)
-    const validHari = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+    const validHari = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
     if (hari && !validHari.includes(hari)) {
-      return res.status(400).json({ 
-        error: "Hari harus Senin, Selasa, Rabu, Kamis, Jumat, atau Sabtu" 
+      return res.status(400).json({
+        error: "Hari harus Senin, Selasa, Rabu, Kamis, Jumat, atau Sabtu",
       });
     }
 
     // Cek apakah mata kuliah exists
     const mataKuliah = await prisma.matakuliah.findUnique({
-      where: { id_mk: Number(id_mk) }
+      where: { id_mk: Number(id_mk) },
     });
 
     if (!mataKuliah) {
-      return res.status(404).json({ 
-        error: "Mata kuliah tidak ditemukan" 
+      return res.status(404).json({
+        error: "Mata kuliah tidak ditemukan",
       });
     }
 
     // Cek apakah dosen exists
     const dosen = await prisma.dosen.findUnique({
-      where: { id_dosen: Number(id_dosen) }
+      where: { id_dosen: Number(id_dosen) },
     });
 
     if (!dosen) {
-      return res.status(404).json({ 
-        error: "Dosen tidak ditemukan" 
+      return res.status(404).json({
+        error: "Dosen tidak ditemukan",
       });
     }
 
@@ -64,13 +64,13 @@ router.post("/", async (req, res) => {
         id_mk: Number(id_mk),
         id_dosen: Number(id_dosen),
         tahun_ajaran,
-        semester: Number(semester)
-      }
+        semester: Number(semester),
+      },
     });
 
     if (existingKelas) {
-      return res.status(400).json({ 
-        error: "Kelas sudah ada untuk tahun ajaran dan semester ini" 
+      return res.status(400).json({
+        error: "Kelas sudah ada untuk tahun ajaran dan semester ini",
       });
     }
 
@@ -80,35 +80,35 @@ router.post("/", async (req, res) => {
         id_dosen: Number(id_dosen),
         tahun_ajaran,
         semester: Number(semester),
-        hari: hari || null
+        hari: hari || null,
       },
       include: {
         matakuliah: {
           select: {
             nama_mk: true,
             sks: true,
-            semester: true
-          }
+            semester: true,
+          },
         },
         dosen: {
           select: {
             nama: true,
-            nidn: true
-          }
-        }
-      }
+            nidn: true,
+          },
+        },
+      },
     });
 
-    res.status(201).json({ 
+    res.status(201).json({
       success: true,
-      message: "Kelas berhasil dibuat", 
-      data: kelas 
+      message: "Kelas berhasil dibuat",
+      data: kelas,
     });
   } catch (error) {
     console.log("CREATE KELAS ERROR:", error);
-    res.status(500).json({ 
+    res.status(500).json({
       error: "Terjadi kesalahan server",
-      details: error.message 
+      details: error.message,
     });
   }
 });
@@ -128,48 +128,37 @@ router.get("/", async (req, res) => {
     const kelas = await prisma.kelas.findMany({
       where: whereClause,
       include: {
-        matakuliah: {
-          select: {
-            nama_mk: true,
-            sks: true,
-            semester: true
-          }
-        },
-        dosen: {
-          select: {
-            nama: true,
-            nidn: true
-          }
-        },
+        matakuliah: true,
+        dosen: true,
         krs: {
           select: {
             id_krs: true,
             mahasiswa: {
               select: {
                 nama: true,
-                nim: true
-              }
-            }
-          }
-        }
+                nim: true,
+              },
+            },
+          },
+        },
       },
       orderBy: [
-        { tahun_ajaran: 'desc' },
-        { semester: 'asc' },
-        { matakuliah: { nama_mk: 'asc' } }
-      ]
+        { tahun_ajaran: "desc" },
+        { semester: "asc" },
+        { matakuliah: { nama_mk: "asc" } },
+      ],
     });
 
     res.json({
       success: true,
       data: kelas,
-      total: kelas.length
+      total: kelas.length,
     });
   } catch (error) {
     console.log("GET KELAS ERROR:", error);
-    res.status(500).json({ 
+    res.status(500).json({
       error: "Terjadi kesalahan server",
-      details: error.message 
+      details: error.message,
     });
   }
 });
@@ -190,29 +179,29 @@ router.get("/:id", async (req, res) => {
               select: {
                 nama: true,
                 nim: true,
-                prodi: true
-              }
-            }
-          }
-        }
-      }
+                prodi: true,
+              },
+            },
+          },
+        },
+      },
     });
 
     if (!kelas) {
-      return res.status(404).json({ 
-        error: "Kelas tidak ditemukan" 
+      return res.status(404).json({
+        error: "Kelas tidak ditemukan",
       });
     }
 
     res.json({
       success: true,
-      data: kelas
+      data: kelas,
     });
   } catch (error) {
     console.log("GET KELAS BY ID ERROR:", error);
-    res.status(500).json({ 
+    res.status(500).json({
       error: "Terjadi kesalahan server",
-      details: error.message 
+      details: error.message,
     });
   }
 });
@@ -225,20 +214,20 @@ router.put("/:id", async (req, res) => {
 
     // Cek apakah kelas exists
     const existingKelas = await prisma.kelas.findUnique({
-      where: { id_kelas: Number(id) }
+      where: { id_kelas: Number(id) },
     });
 
     if (!existingKelas) {
-      return res.status(404).json({ 
-        error: "Kelas tidak ditemukan" 
+      return res.status(404).json({
+        error: "Kelas tidak ditemukan",
       });
     }
 
     // Validasi hari (jika diisi)
-    const validHari = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+    const validHari = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
     if (hari && !validHari.includes(hari)) {
-      return res.status(400).json({ 
-        error: "Hari harus Senin, Selasa, Rabu, Kamis, Jumat, atau Sabtu" 
+      return res.status(400).json({
+        error: "Hari harus Senin, Selasa, Rabu, Kamis, Jumat, atau Sabtu",
       });
     }
 
@@ -249,33 +238,33 @@ router.put("/:id", async (req, res) => {
         ...(id_dosen && { id_dosen: Number(id_dosen) }),
         ...(tahun_ajaran && { tahun_ajaran }),
         ...(semester && { semester: Number(semester) }),
-        ...(hari !== undefined && { hari })
+        ...(hari !== undefined && { hari }),
       },
       include: {
         matakuliah: {
           select: {
             nama_mk: true,
-            sks: true
-          }
+            sks: true,
+          },
         },
         dosen: {
           select: {
-            nama: true
-          }
-        }
-      }
+            nama: true,
+          },
+        },
+      },
     });
 
     res.json({
       success: true,
       message: "Kelas berhasil diupdate",
-      data: updatedKelas
+      data: updatedKelas,
     });
   } catch (error) {
     console.log("UPDATE KELAS ERROR:", error);
-    res.status(500).json({ 
+    res.status(500).json({
       error: "Terjadi kesalahan server",
-      details: error.message 
+      details: error.message,
     });
   }
 });
@@ -287,39 +276,40 @@ router.delete("/:id", async (req, res) => {
 
     // Cek apakah kelas exists
     const existingKelas = await prisma.kelas.findUnique({
-      where: { id_kelas: Number(id) }
+      where: { id_kelas: Number(id) },
     });
 
     if (!existingKelas) {
-      return res.status(404).json({ 
-        error: "Kelas tidak ditemukan" 
+      return res.status(404).json({
+        error: "Kelas tidak ditemukan",
       });
     }
 
     // Cek apakah kelas sudah memiliki KRS
     const krsCount = await prisma.krs.count({
-      where: { id_kelas: Number(id) }
+      where: { id_kelas: Number(id) },
     });
 
     if (krsCount > 0) {
-      return res.status(400).json({ 
-        error: "Tidak dapat menghapus kelas karena sudah memiliki mahasiswa yang mengambil" 
+      return res.status(400).json({
+        error:
+          "Tidak dapat menghapus kelas karena sudah memiliki mahasiswa yang mengambil",
       });
     }
 
     await prisma.kelas.delete({
-      where: { id_kelas: Number(id) }
+      where: { id_kelas: Number(id) },
     });
 
     res.json({
       success: true,
-      message: "Kelas berhasil dihapus"
+      message: "Kelas berhasil dihapus",
     });
   } catch (error) {
     console.log("DELETE KELAS ERROR:", error);
-    res.status(500).json({ 
+    res.status(500).json({
       error: "Terjadi kesalahan server",
-      details: error.message 
+      details: error.message,
     });
   }
 });
@@ -333,22 +323,22 @@ router.get("/form-data/create", async (req, res) => {
           id_mk: true,
           nama_mk: true,
           sks: true,
-          semester: true
+          semester: true,
         },
         orderBy: {
-          nama_mk: 'asc'
-        }
+          nama_mk: "asc",
+        },
       }),
       prisma.dosen.findMany({
         select: {
           id_dosen: true,
           nama: true,
-          nidn: true
+          nidn: true,
         },
         orderBy: {
-          nama: 'asc'
-        }
-      })
+          nama: "asc",
+        },
+      }),
     ]);
 
     res.json({
@@ -356,14 +346,14 @@ router.get("/form-data/create", async (req, res) => {
       data: {
         mataKuliah,
         dosen,
-        hari: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu']
-      }
+        hari: ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"],
+      },
     });
   } catch (error) {
     console.log("GET FORM DATA ERROR:", error);
-    res.status(500).json({ 
+    res.status(500).json({
       error: "Terjadi kesalahan server",
-      details: error.message 
+      details: error.message,
     });
   }
 });
@@ -375,54 +365,55 @@ router.patch("/:id/set-jadwal", async (req, res) => {
     const { hari } = req.body;
 
     // Validasi hari
-    const validHari = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+    const validHari = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
     if (!hari || !validHari.includes(hari)) {
-      return res.status(400).json({ 
-        error: "Hari harus diisi dengan Senin, Selasa, Rabu, Kamis, Jumat, atau Sabtu" 
+      return res.status(400).json({
+        error:
+          "Hari harus diisi dengan Senin, Selasa, Rabu, Kamis, Jumat, atau Sabtu",
       });
     }
 
     // Cek apakah kelas exists
     const existingKelas = await prisma.kelas.findUnique({
-      where: { id_kelas: Number(id) }
+      where: { id_kelas: Number(id) },
     });
 
     if (!existingKelas) {
-      return res.status(404).json({ 
-        error: "Kelas tidak ditemukan" 
+      return res.status(404).json({
+        error: "Kelas tidak ditemukan",
       });
     }
 
     const updatedKelas = await prisma.kelas.update({
       where: { id_kelas: Number(id) },
       data: {
-        hari: hari
+        hari: hari,
       },
       include: {
         matakuliah: {
           select: {
             nama_mk: true,
-            sks: true
-          }
+            sks: true,
+          },
         },
         dosen: {
           select: {
-            nama: true
-          }
-        }
-      }
+            nama: true,
+          },
+        },
+      },
     });
 
     res.json({
       success: true,
       message: "Jadwal kelas berhasil diupdate",
-      data: updatedKelas
+      data: updatedKelas,
     });
   } catch (error) {
     console.log("SET JADWAL ERROR:", error);
-    res.status(500).json({ 
+    res.status(500).json({
       error: "Terjadi kesalahan server",
-      details: error.message 
+      details: error.message,
     });
   }
 });

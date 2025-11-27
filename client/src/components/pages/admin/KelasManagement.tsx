@@ -14,6 +14,7 @@ import type { Kelas } from "../../../services/dataService";
 
 export const KelasManagement: React.FC = () => {
   const { data, loading, formData, create, update, remove } = useKelas();
+  console.log("Kelas Data:", data);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingKelas, setEditingKelas] = useState<Kelas | null>(null);
 
