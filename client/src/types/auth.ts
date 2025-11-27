@@ -9,6 +9,8 @@ export interface User {
   nidn?: string;
   prodi?: string;
   angkatan?: number;
+  email?: string;
+  no_hp?: string;
 }
 
 export interface LoginData {

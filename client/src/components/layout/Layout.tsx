@@ -9,9 +9,9 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <SidebarProvider>
       <Sidebar />
-      <SidebarInset className="h-svh overflow-hidden">
+      <SidebarInset className="h-svh overflow-hidden bg-gray-50/50">
         <Header />
-        <main className="flex-1 overflow-auto bg-gray-50 p-6">
+        <main className="flex-1 overflow-auto p-6 md:p-8 max-w-7xl mx-auto w-full">
           {children}
         </main>
       </SidebarInset>

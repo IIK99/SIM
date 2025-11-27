@@ -70,29 +70,43 @@ export const KelasManagement: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 h-full p-6">
-      <div>
-        <h1 className="text-3xl font-bold">Manajemen Kelas</h1>
-        <p className="text-gray-600">Kelola jadwal dan pembagian kelas</p>
+    <div className="space-y-8 p-1">
+      <div className="flex flex-col gap-1">
+        <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+          Manajemen Kelas
+        </h1>
+        <p className="text-muted-foreground">
+          Kelola jadwal dan pembagian kelas
+        </p>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Daftar Kelas</CardTitle>
-          <CardDescription>Total {data.length} kelas terdaftar</CardDescription>
+      <Card className="border-0 shadow-xl shadow-gray-100/50 overflow-hidden">
+        <CardHeader className="bg-gray-50/50 border-b border-gray-100 pb-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle className="text-xl font-bold text-gray-900">
+                Daftar Kelas
+              </CardTitle>
+              <CardDescription className="mt-1">
+                Total {data.length} kelas terdaftar di sistem
+              </CardDescription>
+            </div>
+          </div>
         </CardHeader>
-        <CardContent>
-          <DataTable
-            data={data}
-            columns={columns}
-            searchKey="matakuliah.nama_mk"
-            onAdd={handleAdd}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-            addButtonLabel="Tambah Kelas"
-            isLoading={loading}
-            idKey="id_kelas"
-          />
+        <CardContent className="p-0">
+          <div className="p-6">
+            <DataTable
+              data={data}
+              columns={columns}
+              searchKey="matakuliah.nama_mk"
+              onAdd={handleAdd}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+              addButtonLabel="Tambah Kelas"
+              isLoading={loading}
+              idKey="id_kelas"
+            />
+          </div>
         </CardContent>
       </Card>
 

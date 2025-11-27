@@ -77,31 +77,43 @@ export const MahasiswaManagement: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 h-full p-6">
-      <div>
-        <h1 className="text-3xl font-bold">Manajemen Mahasiswa</h1>
-        <p className="text-gray-600">Kelola data mahasiswa universitas</p>
+    <div className="space-y-8 p-1">
+      <div className="flex flex-col gap-1">
+        <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+          Manajemen Mahasiswa
+        </h1>
+        <p className="text-muted-foreground">
+          Kelola data mahasiswa universitas
+        </p>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Daftar Mahasiswa</CardTitle>
-          <CardDescription>
-            Total {mahasiswaData.length} mahasiswa terdaftar
-          </CardDescription>
+      <Card className="border-0 shadow-xl shadow-gray-100/50 overflow-hidden">
+        <CardHeader className="bg-gray-50/50 border-b border-gray-100 pb-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle className="text-xl font-bold text-gray-900">
+                Daftar Mahasiswa
+              </CardTitle>
+              <CardDescription className="mt-1">
+                Total {mahasiswaData.length} mahasiswa terdaftar di sistem
+              </CardDescription>
+            </div>
+          </div>
         </CardHeader>
-        <CardContent>
-          <DataTable
-            data={mahasiswaData}
-            columns={columns}
-            searchKey="nama"
-            onAdd={handleAdd}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-            addButtonLabel="Tambah Mahasiswa"
-            isLoading={loading}
-            idKey="id_mahasiswa"
-          />
+        <CardContent className="p-0">
+          <div className="p-6">
+            <DataTable
+              data={mahasiswaData}
+              columns={columns}
+              searchKey="nama"
+              onAdd={handleAdd}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+              addButtonLabel="Tambah Mahasiswa"
+              isLoading={loading}
+              idKey="id_mahasiswa"
+            />
+          </div>
         </CardContent>
       </Card>
 

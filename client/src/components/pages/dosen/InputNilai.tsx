@@ -29,7 +29,7 @@ import {
   type KelasDiajar,
   type MahasiswaKelas,
 } from "../../../hooks/useNilai";
-import { Loader2, Save } from "lucide-react";
+import { Loader2, Save, BookOpen, GraduationCap, Users } from "lucide-react";
 
 export const InputNilai: React.FC = () => {
   const { loading, getKelasDiajar, getMahasiswaKelas, inputNilai } = useNilai();
@@ -129,29 +129,42 @@ export const InputNilai: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 h-full p-6">
-      <div>
-        <h1 className="text-3xl font-bold text-gray-900">Input Nilai</h1>
-        <p className="text-gray-600">Kelola nilai mahasiswa per kelas</p>
+    <div className="space-y-8 p-1">
+      <div className="flex flex-col gap-1">
+        <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+          Input Nilai
+        </h1>
+        <p className="text-muted-foreground">
+          Kelola nilai mahasiswa per kelas
+        </p>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Pilih Kelas</CardTitle>
-          <CardDescription>
-            Pilih mata kuliah untuk mulai menginput nilai
-          </CardDescription>
+      <Card className="border-0 shadow-lg shadow-gray-100/50">
+        <CardHeader className="bg-gray-50/50 border-b border-gray-100 pb-6">
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-blue-100 rounded-lg text-blue-600">
+              <BookOpen className="h-5 w-5" />
+            </div>
+            <div>
+              <CardTitle className="text-lg font-bold text-gray-900">
+                Pilih Kelas
+              </CardTitle>
+              <CardDescription>
+                Pilih mata kuliah untuk mulai menginput nilai
+              </CardDescription>
+            </div>
+          </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-6">
           <Select value={selectedKelas} onValueChange={handleKelasChange}>
-            <SelectTrigger className="w-full md:w-[400px]">
+            <SelectTrigger className="w-full md:w-[400px] h-11 border-gray-200 focus:ring-primary focus:border-primary">
               <SelectValue placeholder="Pilih Mata Kuliah" />
             </SelectTrigger>
             <SelectContent>
               {kelas.map((k) => (
                 <SelectItem key={k.id_kelas} value={k.id_kelas.toString()}>
                   {k.mata_kuliah} - Semester {k.semester} ({k.total_mahasiswa}{" "}
-                  Mhs)
+                  Mahasiswa)
                 </SelectItem>
               ))}
             </SelectContent>
@@ -160,23 +173,49 @@ export const InputNilai: React.FC = () => {
       </Card>
 
       {selectedKelas && (
-        <Card>
-          <CardHeader>
-            <CardTitle>Daftar Mahasiswa</CardTitle>
+        <Card className="border-0 shadow-xl shadow-gray-100/50 overflow-hidden">
+          <CardHeader className="bg-gray-50/50 border-b border-gray-100 pb-6">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-green-100 rounded-lg text-green-600">
+                <GraduationCap className="h-5 w-5" />
+              </div>
+              <div>
+                <CardTitle className="text-lg font-bold text-gray-900">
+                  Daftar Mahasiswa
+                </CardTitle>
+                <CardDescription>
+                  Input nilai tugas, UTS, dan UAS
+                </CardDescription>
+              </div>
+            </div>
           </CardHeader>
-          <CardContent>
-            <div className="rounded-md border">
+          <CardContent className="p-0">
+            <div className="rounded-none border-0">
               <Table>
-                <TableHeader>
+                <TableHeader className="bg-gray-50/50">
                   <TableRow>
-                    <TableHead>NIM</TableHead>
-                    <TableHead>Nama</TableHead>
-                    <TableHead className="w-[100px]">Tugas (30%)</TableHead>
-                    <TableHead className="w-[100px]">UTS (30%)</TableHead>
-                    <TableHead className="w-[100px]">UAS (40%)</TableHead>
-                    <TableHead className="w-[80px]">Akhir</TableHead>
-                    <TableHead className="w-[80px]">Grade</TableHead>
-                    <TableHead className="w-[100px]">Aksi</TableHead>
+                    <TableHead className="w-[120px] font-semibold">
+                      NIM
+                    </TableHead>
+                    <TableHead className="font-semibold">Nama</TableHead>
+                    <TableHead className="w-[100px] text-center font-semibold">
+                      Tugas (30%)
+                    </TableHead>
+                    <TableHead className="w-[100px] text-center font-semibold">
+                      UTS (30%)
+                    </TableHead>
+                    <TableHead className="w-[100px] text-center font-semibold">
+                      UAS (40%)
+                    </TableHead>
+                    <TableHead className="w-[80px] text-center font-semibold">
+                      Akhir
+                    </TableHead>
+                    <TableHead className="w-[80px] text-center font-semibold">
+                      Grade
+                    </TableHead>
+                    <TableHead className="w-[100px] text-center font-semibold">
+                      Aksi
+                    </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -184,9 +223,15 @@ export const InputNilai: React.FC = () => {
                     <TableRow>
                       <TableCell
                         colSpan={8}
-                        className="text-center py-8 text-gray-500"
+                        className="text-center py-12 text-gray-500"
                       >
-                        Belum ada mahasiswa di kelas ini
+                        <div className="flex flex-col items-center justify-center">
+                          <Users className="h-12 w-12 text-gray-300 mb-3" />
+                          <p className="font-medium">Belum ada mahasiswa</p>
+                          <p className="text-sm text-gray-400">
+                            Belum ada mahasiswa yang mengambil kelas ini
+                          </p>
+                        </div>
                       </TableCell>
                     </TableRow>
                   ) : (
@@ -206,10 +251,17 @@ export const InputNilai: React.FC = () => {
                       const letterGrade = getGradeLetter(finalScore);
 
                       return (
-                        <TableRow key={m.id_krs}>
-                          <TableCell className="font-medium">{m.nim}</TableCell>
-                          <TableCell>{m.nama}</TableCell>
-                          <TableCell>
+                        <TableRow
+                          key={m.id_krs}
+                          className="hover:bg-gray-50/50 transition-colors"
+                        >
+                          <TableCell className="font-medium text-gray-900">
+                            {m.nim}
+                          </TableCell>
+                          <TableCell className="font-medium text-gray-700">
+                            {m.nama}
+                          </TableCell>
+                          <TableCell className="text-center">
                             <Input
                               type="number"
                               min="0"
@@ -222,10 +274,10 @@ export const InputNilai: React.FC = () => {
                                   e.target.value
                                 )
                               }
-                              className="w-20"
+                              className="w-20 text-center mx-auto h-9 focus:ring-primary focus:border-primary"
                             />
                           </TableCell>
-                          <TableCell>
+                          <TableCell className="text-center">
                             <Input
                               type="number"
                               min="0"
@@ -238,10 +290,10 @@ export const InputNilai: React.FC = () => {
                                   e.target.value
                                 )
                               }
-                              className="w-20"
+                              className="w-20 text-center mx-auto h-9 focus:ring-primary focus:border-primary"
                             />
                           </TableCell>
-                          <TableCell>
+                          <TableCell className="text-center">
                             <Input
                               type="number"
                               min="0"
@@ -254,24 +306,36 @@ export const InputNilai: React.FC = () => {
                                   e.target.value
                                 )
                               }
-                              className="w-20"
+                              className="w-20 text-center mx-auto h-9 focus:ring-primary focus:border-primary"
                             />
                           </TableCell>
-                          <TableCell>{finalScore.toFixed(1)}</TableCell>
-                          <TableCell>
+                          <TableCell className="text-center font-bold text-gray-900">
+                            {finalScore.toFixed(1)}
+                          </TableCell>
+                          <TableCell className="text-center">
                             <Badge
                               variant={
                                 letterGrade === "A" ? "default" : "secondary"
+                              }
+                              className={
+                                letterGrade === "A"
+                                  ? "bg-green-100 text-green-700 hover:bg-green-200 border-green-200"
+                                  : letterGrade === "B"
+                                  ? "bg-blue-100 text-blue-700 hover:bg-blue-200 border-blue-200"
+                                  : "bg-gray-100 text-gray-700 hover:bg-gray-200 border-gray-200"
                               }
                             >
                               {letterGrade}
                             </Badge>
                           </TableCell>
-                          <TableCell>
+                          <TableCell className="text-center">
                             <Button
                               size="sm"
                               disabled={!isEdited || loading}
                               onClick={() => handleSave(m.id_krs)}
+                              className={
+                                isEdited ? "bg-primary hover:bg-primary/90" : ""
+                              }
                             >
                               {loading && isEdited ? (
                                 <Loader2 className="h-4 w-4 animate-spin" />

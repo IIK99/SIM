@@ -65,31 +65,43 @@ export const MataKuliahManagement: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 h-full p-6">
-      <div>
-        <h1 className="text-3xl font-bold">Manajemen Mata Kuliah</h1>
-        <p className="text-gray-600">Kelola data mata kuliah universitas</p>
+    <div className="space-y-8 p-1">
+      <div className="flex flex-col gap-1">
+        <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+          Manajemen Mata Kuliah
+        </h1>
+        <p className="text-muted-foreground">
+          Kelola data mata kuliah universitas
+        </p>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Daftar Mata Kuliah</CardTitle>
-          <CardDescription>
-            Total {matkulData.length} mata kuliah terdaftar
-          </CardDescription>
+      <Card className="border-0 shadow-xl shadow-gray-100/50 overflow-hidden">
+        <CardHeader className="bg-gray-50/50 border-b border-gray-100 pb-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle className="text-xl font-bold text-gray-900">
+                Daftar Mata Kuliah
+              </CardTitle>
+              <CardDescription className="mt-1">
+                Total {matkulData.length} mata kuliah terdaftar di sistem
+              </CardDescription>
+            </div>
+          </div>
         </CardHeader>
-        <CardContent>
-          <DataTable
-            data={matkulData}
-            columns={columns}
-            searchKey="nama_mk"
-            onAdd={handleAdd}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-            addButtonLabel="Tambah Mata Kuliah"
-            isLoading={loading}
-            idKey="id_mk"
-          />
+        <CardContent className="p-0">
+          <div className="p-6">
+            <DataTable
+              data={matkulData}
+              columns={columns}
+              searchKey="nama_mk"
+              onAdd={handleAdd}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+              addButtonLabel="Tambah Mata Kuliah"
+              isLoading={loading}
+              idKey="id_mk"
+            />
+          </div>
         </CardContent>
       </Card>
 
