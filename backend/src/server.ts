@@ -36,6 +36,7 @@ app.use(
       "http://127.0.0.1:3000",
       "http://localhost:5173",
       "http://127.0.0.1:5173",
+      process.env.FRONTEND_URL || "",
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
@@ -89,10 +90,14 @@ app.get("/", (req, res) => {
   });
 });
 
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
-  console.log(`🚀 Server running at http://localhost:${PORT}`);
-  console.log(
-    `📊 Database: ${process.env.DATABASE_URL ? "Configured" : "Missing"}`
-  );
-});
+if (process.env.NODE_ENV !== "production") {
+  const PORT = process.env.PORT || 3001;
+  app.listen(PORT, () => {
+    console.log(`🚀 Server running at http://localhost:${PORT}`);
+    console.log(
+      `📊 Database: ${process.env.DATABASE_URL ? "Configured" : "Missing"}`
+    );
+  });
+}
+
+export default app;
