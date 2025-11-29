@@ -1,5 +1,4 @@
-SIM (System Informastion Management)
-WEB Application SIAKAD (Sistem Informasi Akademik)
+SIM (System Information Management)
 
 Our Team
 Iik Muhammad Ikmal (Lead)
@@ -9,7 +8,7 @@ Budi Pangestu
 Eleo Elektrus
 Eri Irawan
 
-Key .ENV
+Key .env
 DATABASE_URL="mysql://root:Ikmal.1099@localhost:3306/siakad"
 JWT_SECRET="rahasia_sangat_rahasia"
 JWT_EXPIRES_IN="1d"
@@ -21,8 +20,129 @@ How To Install
 4. Run backend server from backend folder, run command: npm run dev
 5. Run frontend server from frontend folder, run command: npm run dev
 
+How To Use
+Panduan Pengguna SIAKAD (Sistem Informasi Akademik Terpadu)
+Dokumen ini berisi panduan lengkap cara menggunakan aplikasi SIAKAD untuk setiap role pengguna: Admin, Dosen, dan Mahasiswa.
+
+1. Login
+Halaman login adalah gerbang utama untuk masuk ke sistem.
+
+URL: /login
+Cara Masuk: Masukkan username dan password yang sesuai.
+Akun Demo:
+Admin: admin / 123456
+Dosen: rinwaguri / 123456
+Mahasiswa: ikmal / 123456
+2. Role Admin
+Admin memiliki akses penuh untuk mengelola data master universitas.
+
+Fitur Utama:
+Dashboard
+
+Melihat ringkasan statistik (Total Mahasiswa, Dosen, Kelas, Mata Kuliah).
+Melihat aktivitas terbaru.
+Manajemen Mahasiswa (/admin/mahasiswa)
+
+Lihat Data: Menampilkan daftar seluruh mahasiswa.
+Tambah Mahasiswa: Klik tombol "Tambah Mahasiswa", isi form (Nama, NIM, Password, Prodi, Angkatan), lalu simpan.
+Edit/Hapus: Gunakan tombol aksi di sebelah kanan tabel untuk mengubah atau menghapus data mahasiswa.
+Manajemen Dosen (/admin/dosen)
+
+Lihat Data: Menampilkan daftar seluruh dosen.
+Tambah Dosen: Klik tombol "Tambah Dosen", isi form (Nama, NIDN, Password, Email), lalu simpan.
+Edit/Hapus: Mengelola data dosen yang ada.
+Manajemen Mata Kuliah (/admin/mata-kuliah)
+
+Lihat Data: Daftar mata kuliah beserta SKS dan Semester.
+Tambah MK: Klik "Tambah Mata Kuliah", isi Kode MK, Nama MK, SKS, dan Semester.
+Manajemen Kelas (/admin/kelas)
+
+Lihat Data: Daftar kelas yang aktif.
+Buat Kelas: Menghubungkan Mata Kuliah dengan Dosen Pengampu, menentukan Hari, Jam, Ruangan, dan Kuota.
+Penting: Kelas harus dibuat agar Mahasiswa bisa mengambil KRS dan Dosen bisa melihat jadwal.
+3. Role Dosen
+Dosen menggunakan sistem untuk melihat jadwal dan mengelola nilai mahasiswa.
+
+Fitur Utama:
+Dashboard
+
+Ringkasan jumlah kelas yang diampu dan total mahasiswa.
+Jadwal mengajar hari ini.
+Kelas Saya (/dosen/kelas)
+
+Melihat daftar kelas yang diampu pada semester aktif.
+Melihat progres penilaian (berapa % mahasiswa yang sudah dinilai).
+Klik tombol "Input Nilai" pada kartu kelas untuk masuk ke halaman penilaian.
+Input Nilai (/dosen/input-nilai)
+
+Pilih Kelas dari dropdown.
+Sistem akan menampilkan daftar mahasiswa yang mengambil kelas tersebut.
+Isi Nilai: Masukkan nilai Tugas, UTS, dan UAS.
+Nilai Akhir, Grade Huruf, dan Bobot akan dihitung otomatis oleh sistem.
+Klik Simpan Nilai untuk menyimpan perubahan ke database.
+Jadwal Mengajar (/dosen/jadwal)
+
+Tampilan kalender mingguan jadwal mengajar dosen.
+Menampilkan detail Mata Kuliah, Ruangan, dan Jam.
+Profil (/dosen/profil)
+
+Melihat informasi pribadi dosen.
+4. Role Mahasiswa
+Mahasiswa menggunakan sistem untuk kegiatan akademik mulai dari KRS hingga melihat nilai.
+
+Fitur Utama:
+Dashboard
+
+Ringkasan IPK, Total SKS, dan Status Akademik.
+Jadwal kuliah hari ini.
+Ambil KRS (Kartu Rencana Studi) (/mahasiswa/krs)
+
+Pilih Kelas: Melihat daftar kelas yang tersedia (yang dibuat oleh Admin).
+Ambil: Klik tombol "Ambil" untuk mendaftarkan diri ke kelas.
+Cek SKS: Pastikan total SKS tidak melebihi batas maksimal.
+Kelas Terdaftar: Melihat daftar kelas yang sudah diambil. Bisa membatalkan (Drop) jika perlu.
+KHS (Kartu Hasil Studi) (/mahasiswa/khs)
+
+Melihat nilai per semester.
+Pilih Semester dari dropdown untuk melihat riwayat nilai semester lalu.
+Menampilkan IPS (Indeks Prestasi Semester) dan detail nilai mata kuliah.
+Jadwal Kuliah (/mahasiswa/jadwal)
+
+Tampilan jadwal mingguan berdasarkan KRS yang sudah diambil.
+Transkrip (/mahasiswa/transkrip)
+
+Rekapitulasi seluruh nilai dari semester awal hingga akhir.
+Menampilkan IPK (Indeks Prestasi Kumulatif) dan predikat kelulusan.
+Profil (/mahasiswa/profil)
+
+Informasi biodata mahasiswa dan program studi.
+Alur Kerja Umum (Workflow)
+Admin membuat data Master (Mahasiswa, Dosen, Mata Kuliah).
+Admin membuat Kelas (menentukan MK, Dosen, Jadwal).
+Mahasiswa login dan melakukan KRS (mengambil kelas yang tersedia).
+Dosen login, melihat Kelas Saya, dan melakukan Input Nilai untuk mahasiswa yang sudah mengambil kelas.
+Mahasiswa melihat hasil studi di menu KHS atau Transkrip.
+
 
 Testing BE
+
+- Register Admin
+POST http://localhost:3001/auth/register
+
+{
+  "username": "admin",
+  "password": "admin",
+  "role": "admin"
+}
+
+-	Login Admin
+POST http://localhost:3001/auth/login
+
+{
+  "username": "admin",
+  "password": "admin"
+}
+
 -	Admin
 Buat matkul 
 POST http://localhost:3001/mata-kuliah
@@ -44,9 +164,6 @@ Authorization: Bearer {token_admin}
   "nama": "Dr. Ahmad Wijaya",
   "nidn": "12345678"
 }
-
-
-
 
 Add mahasiswa
 POST http://localhost:3001/mahasiswa/create
@@ -131,3 +248,4 @@ Authorization: Bearer {token_mahasiswa}
 Dashboard
 GET http://localhost:3001/api/mahasiswa/dashboard/1
 Authorization: Bearer {token_mahasiswa}
+
