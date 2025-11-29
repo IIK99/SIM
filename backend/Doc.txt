@@ -1,4 +1,28 @@
-Testing 
+SIM (System Informastion Management)
+WEB Application SIAKAD (Sistem Informasi Akademik)
+
+Our Team
+Iik Muhammad Ikmal (Lead)
+
+Ariani Eka
+Budi Pangestu
+Eleo Elektrus
+Eri Irawan
+
+Key .ENV
+DATABASE_URL="mysql://root:Ikmal.1099@localhost:3306/siakad"
+JWT_SECRET="rahasia_sangat_rahasia"
+JWT_EXPIRES_IN="1d"
+
+How To Install
+1. npm i from backend folder
+2. npm i from frontend folder
+3. Migrate database from backend folder, run command: npx prisma migrate or npx prisma migrate dev --name init 
+4. Run backend server from backend folder, run command: npm run dev
+5. Run frontend server from frontend folder, run command: npm run dev
+
+
+Testing BE
 -	Admin
 Buat matkul 
 POST http://localhost:3001/mata-kuliah
